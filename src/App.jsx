@@ -86,7 +86,7 @@ function App() {
                     src={`https://edwardtanguay.vercel.app/customImages/techBooks/${book.idCode}.jpg`}
                   />
 
-                  <div>
+                  <div className="textDiv">
                     <h3 className="title">{book.title}</h3>
 
                     <span className="published">
