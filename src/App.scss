@@ -3,7 +3,9 @@ body {
   padding: 0 1rem;
   font-family: sans-serif;
   color: #fff;
+
   .App {
+    overflow: hidden;
     h1 {
       color: gold;
     }
@@ -25,6 +27,7 @@ body {
       color: white;
       padding: 10px 20px;
       margin-left: 10px;
+      font-weight: bold;
     }
 
     .fileExists {
@@ -69,7 +72,6 @@ body {
           -o-animation-play-state: paused;
           animation-play-state: paused;
           position: relative;
-
           + .password {
             opacity: 1;
           }
@@ -155,7 +157,7 @@ body {
   }
 
   100% {
-    left: 90%;
+    left: 80%;
     transform: rotate(360deg);
   }
 }
@@ -169,24 +171,14 @@ body {
   }
 }
 
-@media (max-width: "767px") {
-  .container {
-    flex-direction: column;
-  }
-  @keyframes move {
-    0% {
-      left: 0;
-      transform: rotate(0deg);
-    }
-
-    100% {
-      left: 70%;
-      transform: rotate(360deg);
-    }
-  }
+@media (max-width: 504px) {
   .App form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
     button {
-      margin: 10px 0px 0px 0px;
+      width: 100%;
+      margin-left: 0;
     }
   }
 }
