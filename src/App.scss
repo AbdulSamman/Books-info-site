@@ -1,0 +1,183 @@
+body {
+  background-color: #333;
+  padding: 0 1rem;
+  font-family: sans-serif;
+  color: #fff;
+  .App {
+    h1 {
+      color: gold;
+    }
+
+    input,
+    button {
+      cursor: pointer;
+      padding: 10px;
+      border-radius: 10px;
+      &:focus {
+        border: 4px solid cyan;
+      }
+    }
+    .search {
+      margin-bottom: 10px;
+    }
+    button {
+      background-color: blue;
+      color: white;
+      padding: 10px 20px;
+      margin-left: 10px;
+    }
+
+    .fileExists {
+      color: green;
+    }
+    .fileIsDeleted {
+      color: red;
+      font-weight: bold;
+      background-color: yellow;
+    }
+    .userStatus {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100px;
+
+      .password {
+        width: 80px;
+        aspect-ratio: 1;
+        border-radius: 100%;
+        border: solid red;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+        font-family: sans-serif;
+        font-weight: bold;
+        background-color: brown;
+        animation: moveY 1s infinite alternate;
+        position: relative;
+        opacity: 0;
+      }
+      .moveX,
+      .moveY {
+        height: 100px;
+        width: 100px;
+        position: relative;
+
+        &:hover {
+          -webkit-animation-play-state: paused;
+          -moz-animation-play-state: paused;
+          -o-animation-play-state: paused;
+          animation-play-state: paused;
+          position: relative;
+
+          + .password {
+            opacity: 1;
+          }
+        }
+      }
+      .moveX {
+        animation: move 3s infinite alternate;
+      }
+      .moveY {
+        animation: moveY 1s infinite alternate;
+      }
+    }
+    .container {
+      display: flex;
+      column-gap: 20px;
+      align-items: center;
+      margin-bottom: 1rem;
+      box-shadow: 2px 2px 5px 2px #ccc inset;
+      border-radius: 20px;
+      padding: 1rem;
+      .iconsContainer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .icons {
+          display: flex;
+          column-gap: 2rem;
+          font-size: 1.8rem;
+
+          a {
+            color: orange;
+            transition: all 0.2s ease-in-out;
+
+            &:hover {
+              color: rgb(167, 243, 81);
+              transform: scale(1.5);
+            }
+          }
+        }
+      }
+      div {
+        .title {
+          color: gold;
+          font-size: 1.5rem;
+        }
+        .published {
+          color: orange;
+        }
+        .description {
+          font-weight: bold;
+          color: rgb(167, 243, 81);
+          font-size: 1.2rem;
+        }
+      }
+      img {
+        width: 150px;
+        height: 200px;
+        border-radius: 20px;
+        box-shadow: 1px 1px 5px 5px #999;
+      }
+      .language {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        .flag {
+          width: 30px;
+          height: 30px;
+          border-radius: 100%;
+          box-shadow: 0px 0px 2px 2px #999;
+        }
+      }
+    }
+  }
+}
+@keyframes move {
+  0% {
+    left: 0;
+    transform: rotate(0deg);
+  }
+
+  100% {
+    left: 90%;
+    transform: rotate(360deg);
+  }
+}
+@keyframes moveY {
+  0% {
+    top: 0;
+  }
+
+  100% {
+    top: 20px;
+  }
+}
+
+@media (max-width: "767px") {
+  .container {
+    flex-direction: column;
+  }
+  @keyframes move {
+    0% {
+      left: 0;
+      transform: rotate(0deg);
+    }
+
+    100% {
+      left: 70%;
+      transform: rotate(360deg);
+    }
+  }
+}
