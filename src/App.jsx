@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import books from "./data/books.json";
 import { AiOutlineShoppingCart, AiOutlineVideoCamera } from "react-icons/ai";
 // filtered input erst nachdem click
-const title = "Our JSX Basics Lesson";
+const title = "Books info site";
 
 const password = "123"; // passwords sollen in backend  geschrieben  und  geprüft
 
@@ -64,7 +64,7 @@ function App() {
       <div style={{ color: userIsOnline ? "green" : "red" }}>Information</div>
       <hr />
       <div className={userIsOnline ? "fileExists" : "fileIsDeleted"}>
-        index.html
+        {!userIsOnline ? "Key" : "Data"}
       </div>
       <hr />
 
