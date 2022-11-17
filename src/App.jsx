@@ -1,17 +1,28 @@
 import "./App.scss";
-import React, { useState, useEffect } from "react";
-import books from "./data/books.json";
-import { AiOutlineShoppingCart, AiOutlineVideoCamera } from "react-icons/ai";
-// filtered input erst nachdem click
-const title = "Books info site";
+import React, { useState } from "react";
+import rawBooks from "./data/books.json";
+import {
+  AiOutlineShoppingCart,
+  AiOutlineVideoCamera,
+  AiFillLike,
+} from "react-icons/ai";
 
-const password = "123"; // passwords sollen in backend  geschrieben  und  geprüft
+const password = "123";
+const _books = [];
+rawBooks.forEach((rawBook) => {
+  const book = {
+    ...rawBook,
+    isLiked: false,
+  };
+  _books.push(book);
+});
 
 function App() {
   const [userIsOnline, setUserIsOnline] = useState(false);
   const [userPassword, setUserPassword] = useState("");
   const [searchText, setSearchText] = useState("");
-  const [filteredBooks, setFilteredBooks] = useState(books);
+  const [filteredBooks, setFilteredBooks] = useState(_books);
+  const [books, setBooks] = useState(_books);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -29,10 +40,15 @@ function App() {
     setUserIsOnline(true);
   };
 
-  // https://www.google.com/search?q=aleppo
+  const handleChangeLiked = (book) => {
+    book.isLiked = !book.isLiked;
+    setBooks([...books]);
+  };
+
   return (
     <div className="App">
-      <h1>{title}</h1>
+      <h1>Books info site</h1>
+
       <form>
         Password:{" "}
         <input
@@ -60,7 +76,7 @@ function App() {
         <div>user needs to login</div>
       )}
       <hr />
-      {/*  {userIsOnline && <div>secret Password: 123456789</div>} */}
+
       <div style={{ color: userIsOnline ? "green" : "red" }}>Information</div>
       <hr />
       <div className={userIsOnline ? "fileExists" : "fileIsDeleted"}>
@@ -69,15 +85,23 @@ function App() {
       <hr />
 
       {userIsOnline && (
-        <div>
-          <h2>There are {filteredBooks.length} books:</h2>
+        <div className="info">
+          <div className="numberOfBooks">
+            <h2 className="numberOfLength">
+              There are {filteredBooks.length} books:
+            </h2>
+            <div className="numberOfLikes">
+              Number of likes:{" "}
+              {books.reduce((acc, cur) => acc + (cur.isLiked ? 1 : 0), 0)}
+            </div>
 
-          <input
-            value={searchText}
-            placeholder="Search ..."
-            onChange={(e) => handelSearch(e)}
-            className="search"
-          />
+            <input
+              value={searchText}
+              placeholder="Search ..."
+              onChange={(e) => handelSearch(e)}
+              className="search"
+            />
+          </div>
           <div>
             {filteredBooks.map((book, i) => {
               return (
@@ -92,6 +116,17 @@ function App() {
                     <span className="published">
                       <i>published {book.yearMonth}</i>
                     </span>
+                    <div className="isLiked">
+                      <AiFillLike
+                        className={
+                          book.isLiked ? "starIsLiked" : "starNotLiked"
+                        }
+                        onClick={() => handleChangeLiked(book)}
+                      />
+
+                      <p>{book.isLiked ? "liked" : "not liked"}</p>
+                    </div>
+                    <div></div>
                     <p>
                       <span className="description"> Description:</span>{" "}
                       {book.description}
@@ -119,14 +154,14 @@ function App() {
                       <div className="icons">
                         <a
                           href={`https://www.youtube.com/results?search_query=${book.idCode}`}
-                          target="blank"
+                          target="_blank"
                         >
                           <AiOutlineVideoCamera />
                         </a>
 
                         <a
                           href={`https://www.google.com/search?q=${book.title}`}
-                          target="blank"
+                          target="_blank"
                         >
                           <AiOutlineShoppingCart />
                         </a>
