@@ -21,17 +21,15 @@ function App() {
   const [userIsOnline, setUserIsOnline] = useState(false);
   const [userPassword, setUserPassword] = useState("");
   const [searchText, setSearchText] = useState("");
-  const [filteredBooks, setFilteredBooks] = useState([]);
+  // const [filteredBooks, setFilteredBooks] = useState([]);
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
     const localStorageBooks = localStorage.getItem("books");
     if (localStorageBooks !== null) {
       setBooks(JSON.parse(localStorageBooks));
-      setFilteredBooks(JSON.parse(localStorageBooks));
     } else {
       setBooks(_books);
-      setFilteredBooks(_books);
     }
   }, []);
   useEffect(() => {
@@ -46,10 +44,7 @@ function App() {
   };
   const handelSearch = (e) => {
     const _searchText = e.target.value;
-    const _filteredBooks = books.filter((book) =>
-      book.title.toLocaleLowerCase().includes(_searchText.toLocaleLowerCase())
-    );
-    setFilteredBooks([..._filteredBooks]);
+
     setSearchText(_searchText);
     setUserIsOnline(true);
   };
@@ -101,9 +96,7 @@ function App() {
       {userIsOnline && (
         <div className="info">
           <div className="numberOfBooks">
-            <h2 className="numberOfLength">
-              There are {filteredBooks.length} books:
-            </h2>
+            <h2 className="numberOfLength">There are {books.length} books:</h2>
             <div className="numberOfLikes">
               Number of likes:{" "}
               {books.reduce((acc, cur) => acc + (cur.isLiked ? 1 : 0), 0)}
@@ -117,74 +110,80 @@ function App() {
             />
           </div>
           <div>
-            {filteredBooks.map((book, i) => {
-              return (
-                <div key={i} className="container">
-                  <img
-                    src={`https://edwardtanguay.vercel.app/customImages/techBooks/${book.idCode}.jpg`}
-                  />
+            {books
+              .filter((m) =>
+                m.title
+                  .toLocaleLowerCase()
+                  .includes(searchText.toLocaleLowerCase())
+              )
+              .map((book, i) => {
+                return (
+                  <div key={i} className="container">
+                    <img
+                      src={`https://edwardtanguay.vercel.app/customImages/techBooks/${book.idCode}.jpg`}
+                    />
 
-                  <div className="textDiv">
-                    <h3 className="title">{book.title}</h3>
+                    <div className="textDiv">
+                      <h3 className="title">{book.title}</h3>
 
-                    <span className="published">
-                      <i>published {book.yearMonth}</i>
-                    </span>
-                    <div className="isLiked">
-                      <AiFillLike
-                        className={
-                          book.isLiked ? "starIsLiked" : "starNotLiked"
-                        }
-                        onClick={() => handleChangeLiked(book)}
-                      />
-
-                      <p>{book.isLiked ? "liked" : "not liked"}</p>
-                    </div>
-                    <div></div>
-                    <p>
-                      <span className="description"> Description:</span>{" "}
-                      {book.description}
-                    </p>
-                    <div className="iconsContainer">
-                      <div className="language">
-                        <img
-                          className="flag"
-                          src={
-                            book.language === ""
-                              ? "https://cdn-icons-png.flaticon.com/512/197/197374.png"
-                              : "https://cdn-icons-png.flaticon.com/512/197/197560.png"
-                          }
-                          alt=""
-                        />
-                        <span
+                      <span className="published">
+                        <i>published {book.yearMonth}</i>
+                      </span>
+                      <div className="isLiked">
+                        <AiFillLike
                           className={
-                            book.language === "" ? "english" : "french"
+                            book.isLiked ? "starIsLiked" : "starNotLiked"
                           }
-                        >
-                          {book.language === "" ? "English" : "French"}
-                        </span>
+                          onClick={() => handleChangeLiked(book)}
+                        />
+
+                        <p>{book.isLiked ? "liked" : "not liked"}</p>
                       </div>
+                      <div></div>
+                      <p>
+                        <span className="description"> Description:</span>{" "}
+                        {book.description}
+                      </p>
+                      <div className="iconsContainer">
+                        <div className="language">
+                          <img
+                            className="flag"
+                            src={
+                              book.language === ""
+                                ? "https://cdn-icons-png.flaticon.com/512/197/197374.png"
+                                : "https://cdn-icons-png.flaticon.com/512/197/197560.png"
+                            }
+                            alt=""
+                          />
+                          <span
+                            className={
+                              book.language === "" ? "english" : "french"
+                            }
+                          >
+                            {book.language === "" ? "English" : "French"}
+                          </span>
+                        </div>
 
-                      <div className="icons">
-                        <a
-                          href={`https://www.youtube.com/results?search_query=${book.idCode}`}
-                          target="_blank"
-                        >
-                          <AiOutlineVideoCamera />
-                        </a>
+                        <div className="icons">
+                          <a
+                            href={`https://www.youtube.com/results?search_query=${book.idCode}`}
+                            target="_blank"
+                          >
+                            <AiOutlineVideoCamera />
+                          </a>
 
-                        <a
-                          href={`https://www.google.com/search?q=${book.title}`}
-                          target="_blank"
-                        >
-                          <AiOutlineShoppingCart />
-                        </a>
+                          <a
+                            href={`https://www.google.com/search?q=${book.title}`}
+                            target="_blank"
+                          >
+                            <AiOutlineShoppingCart />
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
         </div>
       )}
