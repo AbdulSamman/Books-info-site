@@ -1,5 +1,5 @@
 import "./App.scss";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import rawBooks from "./data/books.json";
 import {
   AiOutlineShoppingCart,
@@ -21,8 +21,22 @@ function App() {
   const [userIsOnline, setUserIsOnline] = useState(false);
   const [userPassword, setUserPassword] = useState("");
   const [searchText, setSearchText] = useState("");
-  const [filteredBooks, setFilteredBooks] = useState(_books);
-  const [books, setBooks] = useState(_books);
+  const [filteredBooks, setFilteredBooks] = useState([]);
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    const localStorageBooks = localStorage.getItem("books");
+    if (localStorageBooks !== null) {
+      setBooks(JSON.parse(localStorageBooks));
+      setFilteredBooks(JSON.parse(localStorageBooks));
+    } else {
+      setBooks(_books);
+      setFilteredBooks(_books);
+    }
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("books", JSON.stringify(books));
+  }, [books]);
 
   const handleLogin = (e) => {
     e.preventDefault();
